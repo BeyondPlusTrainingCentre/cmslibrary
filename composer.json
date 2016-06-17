@@ -1,6 +1,6 @@
 {
     "name": "beyondplus/cmslibrary",
-    "description": "A package which provides a simple UI for managing users",
+    "description": "Support for Beyond Plus CMS",
     "authors": [
         {
             "name": "San Pwint Thu",
