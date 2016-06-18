@@ -3,7 +3,7 @@
 namespace BeyondPlus\CmsLibrary;
 
 use Illuminate\Support\ServiceProvider;
-class BeyondPlusCMSServiceProvider extends ServiceProvider
+class CMSServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.

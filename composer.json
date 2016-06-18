@@ -1,6 +1,6 @@
 {
     "name": "beyondplus/cmslibrary",
-    "description": "A package which provides a simple UI for managing users",
+    "description": "Support for Beyond Plus CMS",
     "authors": [
         {
             "name": "San Pwint Thu",
@@ -8,5 +8,10 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+          "BeyondPlus\\CmsLibrary\\": "src/"
+        }
+      }
 }
