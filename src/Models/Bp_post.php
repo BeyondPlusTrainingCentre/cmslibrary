@@ -11,7 +11,7 @@ class Bp_post extends Model
 
     protected $fillable = [
 
-    	 'title', 'body','post_link','post_type','post_weight','view','active','post_created','created_at'
+    	 'title', 'body','post_link','post_type','post_weight','post_active','post_created','created_at'
 
     ];
 
