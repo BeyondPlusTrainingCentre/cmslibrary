@@ -51,12 +51,12 @@ Route::group(['middleware' => 'web','namespace'  =>  'BeyondPlus\CmsLibrary\Cont
 
       Route::resource('account', 'AccountController');
       Route::get('account/delete/{id}', 'AccountController@destroy');
+      Route::resource('new', 'CustomController');
 
       });
 
       Route::get('/', 'Front\FrontController@index');
-      Route::get('/{name}', 'Front\FrontController@menu');
-      Route::get('/detail/{name}', 'Front\FrontController@post');
+      Route::get('/{name}', 'Front\FrontController@post');
       Route::get('/cat/{name}', 'Front\FrontController@cat');
 
       Route::get('/test', function(){

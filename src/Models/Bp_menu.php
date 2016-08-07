@@ -10,7 +10,7 @@ class Bp_menu extends Model
     protected $table = 'bp_menu';
 
     protected $fillable = [
-    	 'menu_name','menu_link','post_id','menu_weight','menu_icon','parent_id' ,'menu_created','created_at','updated_at'
+    	 'menu_name','post_id','menu_weight','menu_icon','parent_id' ,'menu_created','created_at','updated_at'
     ];
 
     public function Parent(){
