@@ -51,6 +51,7 @@ Route::group(['middleware' => 'web','namespace'  =>  'BeyondPlus\CmsLibrary\Cont
 
       Route::resource('account', 'AccountController');
       Route::get('account/delete/{id}', 'AccountController@destroy');
+      Route::resource('new', 'CustomController');
 
       });
 

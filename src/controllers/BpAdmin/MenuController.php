@@ -99,17 +99,20 @@ class MenuController extends Controller
 
     public function update($id, Request $request)
     {
+        // $inputs = $request->all();
+        // $inputs['menu_link'] = str_replace(' ', '-', strtolower($request->input('menu_name')));
+    //    print_r($inputs);
         $inputs = $request->all();
-     //   $inputs = $request->except('_token', '_method');
         $inputs['menu_link'] = str_replace(' ', '-', strtolower($request->input('menu_name')));
+     //   $inputs = $request->except('_token', '_method');
 
-        if ($request->file('menu_icon') && $request->file('category_icon')->isValid()) {
-            $destinationPath = uploadPath();
-            $extension = $request->file('category_icon')->getClientOriginalExtension(); // getting image extension
-            $fileName = 'menumk'.md5(microtime().rand()).'.'.$extension; // renameing image
-            $request->file('menu_icon')->move($destinationPath, $fileName); // uploading file to given path
-            $inputs['menu_icon'] = $fileName;
-        }
+        // if ($request->file('menu_icon') && $request->file('category_icon')->isValid()) {
+        //     $destinationPath = uploadPath();
+        //     $extension = $request->file('category_icon')->getClientOriginalExtension(); // getting image extension
+        //     $fileName = 'menumk'.md5(microtime().rand()).'.'.$extension; // renameing image
+        //     $request->file('menu_icon')->move($destinationPath, $fileName); // uploading file to given path
+        //     $inputs['menu_icon'] = $fileName;
+        // }
 
         Bp_menu::findOrFail($id)->update($inputs);
         return redirect()->to('bp-admin/menu');
