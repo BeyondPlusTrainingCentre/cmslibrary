@@ -101,6 +101,7 @@ class MenuController extends Controller
     {
         $inputs = $request->all();
      //   $inputs = $request->except('_token', '_method');
+        $inputs['menu_link'] = str_replace(' ', '-', strtolower($request->input('menu_name')));
 
         if ($request->file('menu_icon') && $request->file('category_icon')->isValid()) {
             $destinationPath = uploadPath();

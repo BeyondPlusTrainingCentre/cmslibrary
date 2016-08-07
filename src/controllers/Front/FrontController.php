@@ -57,6 +57,18 @@ class FrontController extends Controller
         return view($this->t().'index', $arrayName = array('title' => 'Welcome', 'page' => 'home' ,  'categories' => $this->categories, 'posts' => $this->post,'menus' => $this->menus ,'post_link'=>$this->post_link  ,'sliders' => $this->sliders ));
     }
 
+    public function menu($name) {
+        $query = Bp_menu::where('menu_link', '=', $name)->first();
+       // echo $query->post_id;
+        $bp_post = Bp_post::where('id','=',$query->post_id)->get();     
+        if($bp_post === null){
+            abort(404);
+        } else {
+        $bp_cat=Bp_category::select('*')->get();
+        return view($this->t().'single', array('title' => 'Welcome', 'description' => '', 'page' => 'home', 'posts' => $bp_post, 'bp_cat' => $bp_cat, 'menus' => $this->menus,'post_link'=>$this->post_link ));
+        }
+    }
+
     public function post($name) {
         $bp_post = Bp_post::where('post_link', '=', $name)->get();
         if($bp_post === null){
