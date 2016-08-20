@@ -24,6 +24,7 @@ class MenuController extends Controller
     {
        $this->middleware('admins');
        $this->menu = Bp_menu::where('parent_id','>',0)->orderBy('menu_id', 'desc')->get();
+       $this->menus= Bp_menu::lists('menu_name','menu_id');
        $this->pages=  Bp_post::where('post_type', '=' ,'page')->orderBy('id', 'desc')->get();
        $this->posts=  Bp_post::where('post_type', '=' ,'post')->orderBy('id', 'desc')->get();
     }
@@ -35,20 +36,24 @@ class MenuController extends Controller
     }
 
 
-    public function create(){
-        $categories= Bp_category::lists('category_name','category_id');
-        return view('bp-admin.media.add', array('categories' => $categories));
+
+    public function show(){
+       // $categories= Bp_category::lists('category_name','category_id');
+        return view('bp-admin.menu.add', array('menu' => $this->menu, 'menus' => $this->menus));
 
     }
 
     public function pageStore(Request $request){
         $pages  = $request->get('pages');
+
         for( $i=0; $i<sizeof($pages); $i++){
             $page['post_id'] = $pages[$i];
             $getpages = Bp_post::where('id' , '=', $pages[$i])->first();
             $page_name = $getpages->title;
+
             $page['menu_name'] = $page_name;
-            $inputs['menu_created'] = Auth::guard('admins')->user()->id;
+            $page['menu_link'] = str_replace(' ', '-', strtolower($page_name));
+            $page['menu_created'] = Auth::guard('admins')->user()->id;
             Bp_menu::create($page);
         }
 
@@ -64,7 +69,8 @@ class MenuController extends Controller
             $getposts = Bp_post::where('id' , '=', $posts[$i])->first();
             $post_name = $getposts->title;
             $post['menu_name'] = $post_name;
-            $inputs['menu_created'] = Auth::guard('admins')->user()->id;
+            $post['menu_link'] = str_replace(' ', '-', strtolower($post_name));
+            $post['menu_created'] = Auth::guard('admins')->user()->id;
             Bp_menu::create($post);
         }
 
@@ -78,10 +84,9 @@ class MenuController extends Controller
         // 'description' => 'required'
         // ]);
         $inputs = $request->all();
-        $inputs['media_name'] = $request->input('title');
-        $inputs['media_type'] = 'media';
-        $inputs['user_id'] = Auth::guard('admins')->user()->id;
-        Bp_media::create($inputs);
+        $inputs['menu_link'] = str_replace(' ', '-', strtolower($request->input('menu_name')));
+        $inputs['menus_created'] = Auth::guard('admins')->user()->id;
+        Bp_menu::create($inputs);
         return redirect()->back();
     }
 
@@ -92,8 +97,8 @@ class MenuController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return 'Category Not Found';
         }
-        $menus= Bp_menu::lists('menu_name','menu_id');
-        return view('bp-admin.menu.edit', array('menu' => $menu, 'menus'=> $menus));
+        
+        return view('bp-admin.menu.edit', array('menu' => $menu, 'menus'=> $this->menus));
 
     }
 

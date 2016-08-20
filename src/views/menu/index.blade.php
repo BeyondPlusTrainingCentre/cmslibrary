@@ -89,10 +89,10 @@
                             <h4>Show</h4>
                         </div>
                         <div class="col-sm-3 pull-right">
-                            <!-- <a href="{{ url('bp-admin/menu/add') }}" class="btn btn-success  pull-right">
+                            <a href="{{ url('bp-admin/menu/add') }}" class="btn btn-success  pull-right">
                                 <i class="fa fa-user-plus"></i>
                                 New
-                            </a> -->
+                            </a>
                         </div>
                     </div>
                 </div>

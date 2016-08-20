@@ -43,6 +43,18 @@
                     <li><a href="{{ url('bp-admin/account') }}">Account</a></li>
                 </ul>
             </li>
+            <li class="treeview">
+                <a href="#"><span>Custom</span> <i class="fa fa-angle-right pull-right"></i></a>
+                <ul class="treeview-menu">
+                    
+                    <?php $menus = custom_menu() ?>
+                    @foreach($menus as $menu)
+                    <li><a href="{{ url("bp-admin/custom/".$menu['custom_link'])}}">{{ $menu['custom_name']}} </a></li>
+                    @endforeach
+                </ul>
+            </li>
+            <li><a href="{{ url("bp-admin/new")}}"><span>Add Custom</span></a></li>
+
          
         </ul><!-- /.sidebar-menu -->
     </section>

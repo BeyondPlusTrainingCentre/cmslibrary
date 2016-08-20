@@ -19,12 +19,12 @@
                     <div class="row">
                         <div class="col-sm-5">
                             {{ Form::open([
-                                'url' => 'bp-admin/category/add',
+                                'url' => 'bp-admin/menu',
                                 'method' => 'post',
                                 'files' => 'true',
                                 ]) }}
                           
-                            @if ($errors->has())
+                            @if ($errors->all())
                                 <div class="alert alert-danger">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
@@ -35,35 +35,28 @@
                             
                             <div class="form-group">
                                 <label class="control-label">Name</label>
-                                {{ Form::text('category_name', null,['class'=>'form-control']) }}
+                                {{ Form::text('menu_name', null,['class'=>'form-control']) }}
                                
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Image</label>
-                                {{ Form::file('category_icon',null,array('class'=>'form-control')) }}
-                                {{ Form::hidden('category_icon',null,array('class'=>'form-control')) }}
+                                <label class="control-label">Layouts</label>
+                                {{ Form::text('layouts', null,['class'=>'form-control', 'placeholder' => 'Default Layout Not Required']) }}
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Parent Name</label>
-                                {{ Form::select('parent_id',$categories,null, array('class' => 'form-control', 'placeholder' => 'Choose Parent ...')) }}
+                                {{ Form::select('parent_id',$menus,null, array('class' => 'form-control', 'placeholder' => 'Choose Parent ...')) }}
                             </div> 
-
-
                             <div class="form-group">
-                                <label class="control-label">Show Home</label>
-                                <select class="form-control" name="category_dash">
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
-                                </select>
+                                <label class="control-label">Weight</label>
+                                {{ Form::text('menu_weight', 0,['class'=>'form-control']) }}
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Active</label>
-                                {{ Form::select('category_active', [
+                                {{ Form::select('menu_active', [
                                     'yes' => 'Yes',
                                     'no' => 'No',
                                 ],  null, ['class'=> 'form-control']) }}
                             </div>
-                       
                             <div class="">
                                 <button type="submit" class="pull-right btn btn-success">Create</button>
                             </div>

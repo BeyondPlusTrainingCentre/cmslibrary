@@ -19,46 +19,39 @@
                     <div class="row">
                         <div class="col-sm-5">
                             {{Form::open([
-                                'url' => 'bp-admin/category',
+                                'url' => 'bp-admin/new',
                                 'method' => 'post',
                                 'files' => 'true',
                                 ])}}
                           
-                            @if ($errors->all())
+                          <!--   @if ($errors->has())
                                 <div class="alert alert-danger">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
                                 </div>
-                            @endif
+                            @endif -->
                             {{--  --}}
                             
                             <div class="form-group">
                                 <label class="control-label">Name</label>
-                                {{Form::text('category_name', null,['class'=>'form-control'])}}
+                                {{Form::text('custom_name', null,['class'=>'form-control'])}}
                                
                             </div>
                             <div class="form-group">
+                                <label class="control-label">Link</label>
+                                {{Form::text('custom_link', null,['class'=>'form-control'])}}
+                               
+                            </div>
+                           <!--  <div class="form-group">
                                 <label class="control-label">Image</label>
-                                {{ Form::file('category_icon',null,array('class'=>'form-control')) }}
-                                {{ Form::hidden('category_icon',null,array('class'=>'form-control')) }}
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Parent Name</label>
-                               {{ Form::select('parent_id',$categories,null, array('class' => 'form-control', 'placeholder' => 'Choose Parent ...'))}}
-                            </div> 
+                                {{ Form::file('custom_icon',null,array('class'=>'form-control')) }}
+                                {{ Form::hidden('custom_icon',null,array('class'=>'form-control')) }}
+                            </div> -->
 
-
-                            <div class="form-group">
-                                <label class="control-label">Show Home</label>
-                                <select class="form-control" name="category_dash">
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
-                                </select>
-                            </div>
                             <div class="form-group">
                                 <label class="control-label">Active</label>
-                                {{Form::select('category_active', [
+                                {{Form::select('custom_active', [
                                     'yes' => 'Yes',
                                     'no' => 'No',
                                 ],  null, ['class'=> 'form-control'])}}

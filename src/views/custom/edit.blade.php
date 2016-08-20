@@ -1,7 +1,7 @@
 
 @extends('bp-admin.layouts.admin.index')
 
-@section('title', 'Menu')
+@section('title', 'Custom')
 
 @section('content')
   <div class="row">
@@ -10,64 +10,63 @@
                 <div class="box-header">
                     <div class="row">
                         <div class="col-sm-5">
-                            <h4>Menu</h4>
+                            <h4>Custom</h4>
                         </div>
                     </div>
                 </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-sm-5">
-                            {{ Form::model($menu, [
-                                'url' => ['bp-admin/menu', $menu->menu_id],
-                                'method' => 'put',
-                                'files' => 'true'
-                                ]) }}
-                            @if ($errors->all())
+                <!-- @if ($errors->has())
                                 <div class="alert alert-danger">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
                                 </div>
-                            @endif
+                            @endif -->
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            {{Form::model($custom, [
+                                'url' => ['bp-admin/new', $custom->custom_id],
+                                'method' => 'put',
+                                'files' => 'true'
+                                ])}}
+                            
                             {{--  --}}
                             <div class="form-group">
                                 <label class="control-label">Name</label>
-                                {{ Form::text('menu_name', null,['class'=>'form-control']) }}
+                                {{Form::text('custom_name', null,['class'=>'form-control'])}}
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Layouts</label>
-                                {{ Form::text('layouts', null,['class'=>'form-control']) }}
+                                <label class="control-label">Link</label>
+                                {{Form::text('custom_link', null,['class'=>'form-control'])}}
                             </div>
-                        <!--     <div class="form-group">
+                           <!--  <div class="form-group">
                                 <label class="control-label">Image</label>
-                                {!! Form::file('menu_icon',null,array('class'=>'form-control')) !!}
-                                {!! Form::hidden('menu_icon',null,array('class'=>'form-control')) !!}
+                                {{ Form::file('custom_icon',null,array('class'=>'form-control')) }}
+                                {{ Form::hidden('custom_icon',null,array('class'=>'form-control')) }}
                             </div>
-                        -->
                             <div class="form-group">
                                 <label class="control-label">Parent Name</label>
-                                 
-                                     {{ Form::select('parent_id',$menus,null,['class'=>'form-control']) }}
-                                   
-                            </div> 
-                            <div class="form-group">
-                                <label class="control-label">Weight</label>
-                                {{ Form::text('menu_weight', null,['class'=>'form-control']) }}
-                            </div>
+                                  @if($custom->parent_id == 0)
+                                    {{Form::select('parent_id',$categories,null, array('class' => 'form-control', 'placeholder' => 'Choose Parent ...'))}}
+                                   @else
+                                     {{Form::select('parent_id',$categories,'null',['class'=>'form-control'])}}
+                                   @endif
+                            </div>  -->
+                            
                             
                             <div class="form-group">
                                 <label class="control-label">Active</label>
-                                {{ Form::select('menu_active', [
+                                {{Form::select('custom_active', [
                                     'yes' => 'Yes',
                                     'no' => 'No',
-                                ],  null, ['class'=> 'form-control']) }}
+                                ],  null, ['class'=> 'form-control'])}}
                             </div>
                           
                             <div>
                                 <button type="submit" class="pull-right btn btn-success">Update</button>
                             </div>
-                            {{ Form::close() }}
+                            {{Form::close()}}
                             {{--  --}}
                         </div>{{-- end of form wrapper div --}}
                     </div>

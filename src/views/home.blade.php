@@ -74,41 +74,6 @@
                     </li>
                   @endforeach
 
-                    <!-- <li>
-                      <img src="{{ url('/img/avatar.png')}}" alt="User Image">
-                      <a class="users-list-name" href="#">Norman</a>
-                      <span class="users-list-date">Yesterday</span>
-                    </li>
-                    <li>
-                      <img src="{{ url('/img/avatar3.png')}}" alt="User Image">
-                      <a class="users-list-name" href="#">Jane</a>
-                      <span class="users-list-date">12 Jan</span>
-                    </li>
-                    <li>
-                      <img src="{{ url('/img/avatar5.png')}}" alt="User Image">
-                      <a class="users-list-name" href="#">John</a>
-                      <span class="users-list-date">12 Jan</span>
-                    </li>
-                    <li>
-                      <img src="{{ url('/img/avatar.png') }}" alt="User Image">
-                      <a class="users-list-name" href="#">Alexander</a>
-                      <span class="users-list-date">13 Jan</span>
-                    </li>
-                    <li>
-                      <img src="{{ url('/img/avatar5.png')}}" alt="User Image">
-                      <a class="users-list-name" href="#">Sarah</a>
-                      <span class="users-list-date">14 Jan</span>
-                    </li>
-                    <li>
-                      <img src="{{ url('/img/avatar3.png')}}" alt="User Image">
-                      <a class="users-list-name" href="#">Nora</a>
-                      <span class="users-list-date">15 Jan</span>
-                    </li>
-                    <li>
-                      <img src="{{ url('/img/avatar2.png')}}" alt="User Image">
-                      <a class="users-list-name" href="#">Nadia</a>
-                      <span class="users-list-date">15 Jan</span>
-                    </li> -->
                   </ul>
                   <!-- /.users-list -->
                 </div>

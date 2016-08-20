@@ -24,7 +24,7 @@
                         <div class="col-sm-10">
                             
                           
-                            @if ($errors->has())
+                            @if($errors->all())
                                 <div class="alert alert-danger">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>

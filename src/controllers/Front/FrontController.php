@@ -44,7 +44,7 @@ class FrontController extends Controller
         $this->themes = Bp_options::where('option_name','=', 'theme')->first();
         $this->categories = Bp_category::all($arrayName = array('category_name'));
         $this->post = Bp_post::where('post_type', '=', 'post')->get();
-        $this->menus = Bp_menu::with('children')->where('parent_id','=',1)->orderBy('menu_id', 'desc')->get();
+        $this->menus = Bp_menu::with('children')->where('parent_id','=',1)->orderBy('menu_weight')->get();
         $this->sliders= Bp_slider::get();
         $this->post_link = Bp_post::select('post_link','id')->get();
     }
@@ -59,13 +59,22 @@ class FrontController extends Controller
 
     public function menu($name) {
         $query = Bp_menu::where('menu_link', '=', $name)->first();
-       // echo $query->post_id;
-        $bp_post = Bp_post::where('id','=',$query->post_id)->get();     
-        if($bp_post === null){
-            abort(404);
+        if($query){
+          if($query->layouts == ""){
+            $bp_post = Bp_post::where('id','=',$query->post_id)->get();
+        //  print_r($bp_post);
+            $bp_cat=Bp_category::select('*')->get();
+              if($bp_post === null){
+                  abort(404);
+              } else {
+
+              return view($this->t().'single', array('title' => 'Welcome', 'description' => '', 'page' => 'home', 'posts' => $bp_post, 'bp_cat' => $bp_cat, 'menus' => $this->menus,'post_link'=>$this->post_link ));
+              }
+          } else {
+              return view($this->t().'layouts/'.$query->layouts,  array('title' => 'Welcome', 'description' => '', 'page' => 'home', 'menus' => $this->menus,'post_link'=>$this->post_link ));
+          }
         } else {
-        $bp_cat=Bp_category::select('*')->get();
-        return view($this->t().'single', array('title' => 'Welcome', 'description' => '', 'page' => 'home', 'posts' => $bp_post, 'bp_cat' => $bp_cat, 'menus' => $this->menus,'post_link'=>$this->post_link ));
+            abort('404');
         }
     }
 

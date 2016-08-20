@@ -23,7 +23,7 @@
                                 'method' => 'put',
                                 'files' => 'true'
                                 ]) }}
-                            @if ($errors->has())
+                            @if ($errors->all())
                                 <div class="alert alert-danger">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
