@@ -68,7 +68,7 @@ class AccountController extends Controller
     {
         $inputs = $request->all();
      //   $inputs = $request->except('_token', '_method');
-
+        $inputs['password'] = bcrypt($request->input('password'));
         Admin::findOrFail($id)->update($inputs);
         return redirect()->to('bp-admin/account');//return view
     }
