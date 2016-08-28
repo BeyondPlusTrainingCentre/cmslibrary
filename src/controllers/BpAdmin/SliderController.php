@@ -44,7 +44,7 @@ class SliderController extends Controller
         $inputs = $request->all();
 
         if ($request->file('slider_link') && $request->file('slider_link')->isValid()) {
-            $destinationPath = uploadPath();
+            $destinationPath = public_path('uploads/');
             $extension = $request->file('slider_link')->getClientOriginalExtension(); // getting image extension
             $fileName = 'slidermk'.md5(microtime().rand()).'.'.$extension; // renameing image
             $request->file('slider_link')->move($destinationPath, $fileName); // uploading file to given path
@@ -76,7 +76,7 @@ class SliderController extends Controller
      //   $inputs = $request->except('_token', '_method');
 
         if ($request->file('slider_link') && $request->file('slider_link')->isValid()) {
-            $destinationPath = uploadPath();
+            $destinationPath = public_path('uploads/');
             $extension = $request->file('slider_link')->getClientOriginalExtension(); // getting image extension
             $fileName = 'slidermk'.md5(microtime().rand()).'.'.$extension; // renameing image
             $request->file('slider_link')->move($destinationPath, $fileName); // uploading file to given path
