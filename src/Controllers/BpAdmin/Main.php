@@ -15,7 +15,7 @@ class Main extends Controller
 {
     public function login_admin_post(Request $request)
     {
-    	$admin = auth()->guard('admins');
+    	$admin = auth()->guard('admin');
     	if($admin->attempt(['email'=>$request->input('email'),'password'=>$request->input('password')]))
     	{
     		return redirect()->intended('bp-admin');
@@ -26,7 +26,7 @@ class Main extends Controller
 
     public function logout()
     {
-    auth()->guard('admins')->logout();
+    auth()->guard('web')->logout();
     return redirect('/');
     }
 

@@ -30,20 +30,10 @@ class FrontController extends Controller
      * @return void
      */
 
-
-    var $categories;
-    var $post;
-    var $menus;
-    var $title;
-    var $description;
-    var $theme;
-    var $themes;
-    var $sliders;
-
     public function __construct(){
-        $this->themes = Bp_options::where('option_name','=', 'theme')->first();
+        $this->themes = Bp_options::where('option_name','theme')->first();
         $this->categories = Bp_category::all($arrayName = array('category_name'));
-        $this->post = Bp_post::where('post_type', '=', 'post')->get();
+       // $this->post = Bp_post::where('post_type', '=', 'post')->get();
         $this->menus = Bp_menu::with('children')->where('parent_id','=',1)->orderBy('menu_weight')->get();
         $this->sliders= Bp_slider::get();
         $this->post_link = Bp_post::select('post_link','id')->get();
@@ -54,7 +44,7 @@ class FrontController extends Controller
     }
 
     public function index(){
-        return view($this->t().'index', $arrayName = array('title' => 'Welcome', 'page' => 'home' ,  'categories' => $this->categories, 'posts' => $this->post,'menus' => $this->menus ,'post_link'=>$this->post_link  ,'sliders' => $this->sliders ));
+        return view($this->t().'index', ['title' => 'Welcome', 'page' => 'home' ,  'categories' => $this->categories,'menus' => $this->menus ,'post_link'=>$this->post_link  ,'sliders' => $this->sliders ]);
     }
 
     public function menu($name) {
@@ -62,16 +52,15 @@ class FrontController extends Controller
         if($query){
           if($query->layouts == ""){
             $bp_post = Bp_post::where('id','=',$query->post_id)->get();
-        //  print_r($bp_post);
             $bp_cat=Bp_category::select('*')->get();
               if($bp_post === null){
                   abort(404);
               } else {
 
-              return view($this->t().'single', array('title' => 'Welcome', 'description' => '', 'page' => 'home', 'posts' => $bp_post, 'bp_cat' => $bp_cat, 'menus' => $this->menus,'post_link'=>$this->post_link ));
+              return view($this->t().'single', ['title' => 'Welcome', 'description' => '', 'page' => 'home', 'posts' => $bp_post, 'bp_cat' => $bp_cat, 'menus' => $this->menus,'post_link'=>$this->post_link ]);
               }
           } else {
-              return view($this->t().'layouts/'.$query->layouts,  array('title' => 'Welcome', 'description' => '', 'page' => 'home', 'menus' => $this->menus,'post_link'=>$this->post_link ));
+              return view($this->t().'layouts/'.$query->layouts, ['title' => 'Welcome', 'description' => '', 'page' => 'home', 'menus' => $this->menus,'post_link'=>$this->post_link ]);
           }
         } else {
             abort('404');
@@ -84,7 +73,7 @@ class FrontController extends Controller
             abort(404);
         } else {
         $bp_cat=Bp_category::select('*')->get();
-        return view($this->t().'single', array('title' => 'Welcome', 'description' => '', 'page' => 'home', 'posts' => $bp_post, 'bp_cat' => $bp_cat, 'menus' => $this->menus,'post_link'=>$this->post_link ));
+        return view($this->t().'single', ['title' => 'Welcome', 'description' => '', 'page' => 'home', 'posts' => $bp_post, 'bp_cat' => $bp_cat, 'menus' => $this->menus,'post_link'=>$this->post_link ]);
         }
     }
 
@@ -95,10 +84,12 @@ class FrontController extends Controller
             abort(404);
         } else {
             $term=Bp_relationship::select('post_id')->where('term_id','=', $cat_id->category_id)->get();
-            return view($this->t().'post', array('title' => 'Welcome', 'description' => '', 'page' => 'home','bp_cat' => $bp_cat, 'menus' => $this->menus,'post_link'=>$this->post_link , 'term' => $term));
+            return view($this->t().'post', ['title' => 'Welcome', 'description' => '', 'page' => 'home','bp_cat' => $bp_cat, 'menus' => $this->menus,'post_link'=>$this->post_link , 'term' => $term]);
         }
 
     }
+
+    // To Do Comment and Search
 
     // public function comment(Request $request){
     //    $this->middleware('auth');

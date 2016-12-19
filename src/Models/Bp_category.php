@@ -10,7 +10,7 @@ class Bp_category extends Model
     protected $table = 'bp_category';
 
     protected $fillable = [
-    	'category_id','category_name', 'parent_id','category_link','category_icon', 'category_dash', 'category_active'
+    	'category_id','category_name', 'parent_id','category_link','category_icon', 'category_desc', 'category_dash', 'category_active'
     ];
 
     public function parent()

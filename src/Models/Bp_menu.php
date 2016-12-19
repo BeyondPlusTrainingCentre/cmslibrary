@@ -10,8 +10,12 @@ class Bp_menu extends Model
     protected $table = 'bp_menu';
 
     protected $fillable = [
-    	 'menu_name','menu_link','post_id', 'layouts','menu_weight','menu_icon','parent_id' ,'menu_created','created_at','updated_at'
+    	 'menu_name','menu_link','post_id', 'layouts','menu_weight','menu_icon','parent_id' ,'staff_id','created_at','updated_at'
     ];
+
+    public function setMenulinkAttribute($value){
+        $this->attributes['menu_link'] = str_replace(' ', '-', strtolower($value));
+    }
 
     public function Parent(){
     	return $this->belongsTo('BeyondPlus\CmsLibrary\Models\Bp_menu', 'parent_id','menu_id');

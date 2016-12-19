@@ -10,7 +10,7 @@ class Bp_tax extends Model
     protected $table = 'bp_tax';
 
     protected $fillable = [
-    	'tax_id','parent_id', 'tax_name','tax_icon', 'tax_desc', 'tax_lan', 'tax_dash' , 'tax_active', 'tax_created'
+    	'tax_id','parent_id', 'tax_name', 'tax_link','tax_icon', 'tax_desc', 'tax_lan', 'tax_dash' , 'tax_active', 'staff_id'
     ];
 
     public function parent()

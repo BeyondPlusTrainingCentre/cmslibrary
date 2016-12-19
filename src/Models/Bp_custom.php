@@ -10,7 +10,7 @@ class Bp_custom extends Model
     protected $table = 'bp_custom';
 
     protected $fillable = [
-    	 'custom_name','custom_link','custom_weight','custom_icon','parent_id' ,'custom_created','created_at','updated_at'
+    	 'custom_name','custom_link', 'custom_blade','custom_weight','custom_icon','parent_id' ,'staff_id','created_at','updated_at'
     ];
 
     public function Parent(){

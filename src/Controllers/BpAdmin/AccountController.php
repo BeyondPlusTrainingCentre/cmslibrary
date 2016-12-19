@@ -7,17 +7,13 @@
  */
 namespace BeyondPlus\CmsLibrary\Controllers\BpAdmin;
 
-
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Admin;
 
-// use Illuminate\Foundation\Auth\ThrottlesLogins;
-// use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-
-class UserController extends Controller
+class AccountController extends Controller
 {
     public function __construct()
     {
@@ -25,18 +21,16 @@ class UserController extends Controller
     }
 
      public function index(){
-        $user = User::orderBy('id', 'DESC')
-            ->groupBy('users.id')
-            ->get();
-        return view('bp-admin.user.index',array('user' => $user ));
+        $adminaccounts = Admin:: get();
+
+
+
+        return view('bp-admin.account.index')->with(compact('adminaccounts'));
     }
 
     public function create(){
-      //  $user= User::lists('name','id');
-        //$brand= Brand::lists('brand_name','id');
-        //return view('dashboard.create')->with('category',$categories);
-        $user = User::orderBy('id', 'DESC')->get();
-        return view('bp-admin.user.add')->with(compact('user'));
+        $adminaccounts = Admin::get();
+        return view('bp-admin.account.add')->with(compact('adminaccounts'));
     }
 
     public function store(Request $request){
@@ -46,22 +40,20 @@ class UserController extends Controller
         // ]);
 
         $inputs = $request->all();
-        $inputs['api_token'] = str_random(60);
+
         $inputs['password'] = bcrypt($request->input('password'));
-        User::create($inputs);
-        return redirect()->to('bp-admin/user');
+        Admin::create($inputs);
+        return redirect()->to('bp-admin/account');
     }
 
     public function edit($id)
     {
         try {
-            $user = User::findOrFail($id);
+            $adminaccounts = Admin::findOrFail($id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return 'Product Not Found';
-        }
-       // $categories= User::lists('name','email');
 
-        return view('bp-admin.user.edit')->with(compact('user'));
+        return view('bp-admin.account.edit')->with(compact('adminaccounts'));
     }
 
 
@@ -70,13 +62,13 @@ class UserController extends Controller
         $inputs = $request->all();
      //   $inputs = $request->except('_token', '_method');
         $inputs['password'] = bcrypt($request->input('password'));
-        User::findOrFail($id)->update($inputs);
-        return redirect()->to('bp-admin/user');//return view
+        Admin::findOrFail($id)->update($inputs);
+        return redirect()->to('bp-admin/account');//return view
     }
 
     public function destroy($id)
     {
-        User::find($id)->delete();
+        Admin::find($id)->delete();
         //return 1;
         return redirect()->back();
     }

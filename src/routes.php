@@ -6,43 +6,42 @@ Route::group(['middleware' => 'web','namespace'  =>  'BeyondPlus\CmsLibrary\Cont
       Route::any('/register','Front\FrontController@index');
       Route::post('bp-admin/login','BpAdmin\Main@login_admin_post');
       Route::get('bp-admin/login', function(){
-          return view('auth/adminlogin');
+          return view('auth/login');
       });
 
-      Route::group(['prefix' => 'bp-admin','namespace'  =>  'BpAdmin', 'middleware' => 'admins'], function () {
+      Route::group(['prefix' => 'bp-admin','namespace'  =>  'BpAdmin', 'middleware' => 'admin'], function () {
 
+      Route::get('/home', 'HomeController@index');
+      Route::get('/dashboard', 'BackendController@index');
       Route::get('/', 'AdminController@index');
       Route::get('logout','Main@logout');
 
+      Route::get('/post/search', 'PageController@search');
       Route::resource('post', 'PostController');
-      Route::get('post/delete/{id}','PostController@destroy');
+      Route::post('/post/upload', 'PostController@imageUpload');
 
+      Route::get('/page/search', 'PageController@search');
       Route::resource('page', 'PageController');
-      Route::get('page/delete/{id}','PageController@destroy');
 
       Route::resource('user', 'UserController');
       Route::get('user/delete/{id}', 'UserController@destroy');
 
       Route::resource('media', 'MediaController');
-      Route::get('media/delete/{id}','MediaController@destroy');
+      Route::post('/media/upload', 'MediaController@imageUpload');
 
       Route::resource('slider', 'SliderController');
-      Route::get('slider/delete/{id}','SliderController@destroy');
+      Route::post('/slider/upload', 'SliderController@imageUpload');
 
       Route::resource('menu', 'MenuController');
       Route::get('menu/delete/{id}','MenuController@destroy');
       Route::post('menu/pagestore', 'MenuController@pageStore');
       Route::post('menu/poststore', 'MenuController@postStore');
 
+      Route::get('/category/search', 'CategoryController@search');
       Route::resource('category', 'CategoryController');
-      Route::get('category/delete/{id}','CategoryController@destroy');
 
-      Route::get('tax', 'TaxController@index');
-      Route::get('tax/add', 'TaxController@create');
-      Route::post('tax/add', 'TaxController@store');
-      Route::get('tax/{id}', 'TaxController@edit');
-      Route::put('tax/{id}','TaxController@update');
-      Route::get('tax/delete/{id}','TaxController@destroy');
+      Route::get('/taxonomy/search', 'TaxController@search');
+      Route::resource('taxonomy', 'TaxController');      
 
       Route::get('generals','SettingsController@index');
       Route::get('generals/add', 'SettingsController@generaledit');
@@ -51,7 +50,9 @@ Route::group(['middleware' => 'web','namespace'  =>  'BeyondPlus\CmsLibrary\Cont
 
       Route::resource('account', 'AccountController');
       Route::get('account/delete/{id}', 'AccountController@destroy');
-      Route::resource('new', 'CustomController');
+      Route::resource('custom', 'CustomController');
+
+      
 
       });
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by Beyond Plus <bplusmyanmar@hotmail.com>
  * User: Beyond Plus
@@ -6,40 +7,60 @@
  * Time: MM:HH PM
  */
 namespace BeyondPlus\CmsLibrary\Controllers\BpAdmin;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 use BeyondPlus\CmsLibrary\Models\Bp_category;
+use BeyondPlus\CmsLibrary\Models\Bp_post;
+use BeyondPlus\CmsLibrary\Models\User;
+use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
+use BeyondPlus\CmsLibrary\Services\PostService;
+use BeyondPlus\CmsLibrary\Transformers\PostTransformer;
 
-
-class CategoryController extends Controller
+class PageController extends Controller
 {
-    public function __construct()
-    {
-       $this->middleware('admins');
+
+    protected $service;
+    public function __construct(PostService $service)
+    {   
+        $this->middleware('auth');
+        $this->service = $service;
+        $this->transformer = new PostTransformer;
     }
 
-	public function index(){
+    public function index(Request $request){
+        $per_page = $request->input('per_page',Limit::NORMAL );
+        $query = $this->service->page($per_page);
+        return $this->transformer->transform($query);
+    }
 
-		$category = Bp_category::orderBy('category_name')->paginate(13);
-		//return view('bp-admin.category.index')->with(compact('category'));
-        return view('bp-admin.category.index', array('category' => $category));
-	}
+    public function search(Request $request){
+        $query = $this->service->search($request->all());
+        if(sizeof($query)>0){
+            return  $query;
+        } else {
+            return  json_encode([]);
+        }
 
-	public function create(){
+    }
+
+    public function create(){
+
         $categories= Bp_category::lists('category_name','category_id');
-        return view('bp-admin.category.add', array('categories' => $categories));
-	}
+        return view('bp-admin.page.add', array('categories' => $categories));
 
-	public function store(Request $request){
+    }
+
+    public function store(Request $request){
         // $this->validate($request, [
         // 'title' => 'required',
         // 'description' => 'required'
         // ]);
 
         $inputs = $request->all();
-        $inputs['category_link'] = str_replace(' ', '-', strtolower($request->input('category_name')));
+        $inputs['post_type'] = 'page';
         if ($request->file('category_icon') && $request->file('category_icon')->isValid()) {
             $destinationPath = uploadPath();
             $extension = $request->file('category_icon')->getClientOriginalExtension(); // getting image extension
@@ -52,27 +73,27 @@ class CategoryController extends Controller
         }
 
 
-		Bp_category::create($inputs);
-        return redirect()->to('bp-admin/category');
-	}
+        Bp_post::create($inputs);
+        return json_encode(['success' => '1']);
+    }
 
-	public function edit($id)
+    public function edit($id)
     {
         try {
-            $category = Bp_category::findOrFail($id);
+            $page = Bp_post::findOrFail($id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return 'Category Not Found';
         }
         $categories= Bp_category::lists('category_name','category_id');
-        return view('bp-admin.category.edit', array('category' => $category, 'categories' => $categories));
-    }
+        return view('bp-admin.page.edit', array('page' => $page, 'categories' => $categories));
 
+    }
 
     public function update($id, Request $request)
     {
         $inputs = $request->all();
      //   $inputs = $request->except('_token', '_method');
-        $inputs['category_link'] = str_replace(' ', '-', strtolower($request->input('category_name')));
+        $inputs['post_type'] = 'page';
         if ($request->file('category_icon') && $request->file('category_icon')->isValid()) {
             $destinationPath = uploadPath();
             $extension = $request->file('category_icon')->getClientOriginalExtension(); // getting image extension
@@ -81,13 +102,13 @@ class CategoryController extends Controller
             $inputs['category_icon'] = $fileName;
         }
 
-        Bp_category::findOrFail($id)->update($inputs);
-        return redirect()->to('bp-admin/category');
+        Bp_post::findOrFail($id)->update($inputs);
+        return json_encode(['success' => '1']);
     }
 
     public function destroy($id)
     {
-        Bp_category::find($id)->delete();
+        Bp_post::find($id)->delete();
         return redirect()->back();
     }
 

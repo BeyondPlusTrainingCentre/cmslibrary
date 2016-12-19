@@ -17,20 +17,27 @@ use BeyondPlus\CmsLibrary\Models\Bp_term;
 use BeyondPlus\CmsLibrary\Models\Bp_post;
 use BeyondPlus\CmsLibrary\Models\Bp_relationship;
 use BeyondPlus\CmsLibrary\Models\User;
+use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
+use BeyondPlus\CmsLibrary\Services\PostService;
+use BeyondPlus\CmsLibrary\Transformers\PostTransformer;
 use Auth;
 
 class PostController extends Controller
 {
     var $categories;
-    public function __construct()
-    {
-       $this->middleware('admins');
-       $this->categories=  Bp_category::all();
+    protected $service;
+    public function __construct(PostService $service)
+    {   
+        $this->middleware('auth');
+        $this->service = $service;
+        $this->transformer = new PostTransformer;
+        $this->categories=  Bp_category::all();
     }
 
-    public function index(){
-        $post = Bp_post::where('post_type','=', 'post')->orderBy('updated_at','desc')->paginate(13);
-        return view('bp-admin.post.index', array('post' => $post));
+    public function index(Request $request){
+        $per_page = $request->input('per_page',Limit::NORMAL );
+        $query = $this->service->post($per_page);
+        return $this->transformer->transform($query);
     }
 
     public function create(){
@@ -39,21 +46,39 @@ class PostController extends Controller
 
     }
 
+    public function imageUpload(Request $request){
+        // $this->validate($request, [
+        //     'featured_img' => 'required|mimes:jpg,jpeg,bmp,png,mp4,mp3,webm'
+        //     ]);
+       // if ($request->file('featured_img') && $request->file('featured_img')->isValid()) {
+            $destinationPath = public_path().'/uploads';
+            $extension = $request->file('featured_img')->getClientOriginalExtension(); // getting image extension
+            $fileName = 'postmk'.md5(microtime().rand()).'.'.$extension; // renameing image
+            $request->file('featured_img')->move($destinationPath, $fileName); // uploading file to given path
+            return ['media' => $fileName];
+        // }
+
+        // return ['media' => ''];
+    }
+
+
+    public function show($id){
+        $query = $this->service->detail($id);
+        return $this->transformer->transformDetail($query);
+    }
+
     public function store(Request $request){
         // $this->validate($request, [
         // 'title' => 'required',
         // 'description' => 'required'
         // ]);
-
         $inputs = $request->all();
         $inputs['post_link'] = str_replace(' ', '-', strtolower($request->input('title')));
         $inputs['post_type'] = 'post';
-        $inputs['post_created'] = Auth::guard('admins')->user()->id;
+        $inputs['staff_id'] = Auth::user()->id;
         Bp_post::create($inputs);
 
         $update_id = Bp_post::orderBy('id', 'desc')->first();
-       // echo $update_id->id;
-        //print_r($update_id->id);
         $categories  = $request->get('categories');
         for( $i=0; $i<sizeof($categories); $i++){
             $cat['term_id'] = $categories[$i];
@@ -62,7 +87,7 @@ class PostController extends Controller
             Bp_relationship::create($cat);
         }
 
-        return redirect()->to('bp-admin/post');
+        return response()->json(['success' => 1]);
     }
 
     public function edit($id)
@@ -82,14 +107,6 @@ class PostController extends Controller
     {
         $inputs = $request->all();
         $inputs['post_link'] = str_replace(' ', '-', strtolower($request->input('title')));
-        if ($request->file('category_icon') && $request->file('category_icon')->isValid()) {
-            $destinationPath = uploadPath();
-            $extension = $request->file('category_icon')->getClientOriginalExtension(); // getting image extension
-            $fileName = 'catmk'.md5(microtime().rand()).'.'.$extension; // renameing image
-            $request->file('category_icon')->move($destinationPath, $fileName); // uploading file to given path
-            $inputs['category_icon'] = $fileName;
-        }
-
         Bp_post::findOrFail($id)->update($inputs);
 
         $categories  = $request->get('categories');
@@ -104,13 +121,13 @@ class PostController extends Controller
             $cat['type']    = 'cat';
             Bp_relationship::create($cat);
         }
-        return redirect()->to('bp-admin/post');
+        return response()->json(['success' => 1]);
     }
 
     public function destroy($id)
     {
         Bp_post::find($id)->delete();
-        return redirect()->back();
+        return response()->json(['success' => 1]);
     }
 
 }

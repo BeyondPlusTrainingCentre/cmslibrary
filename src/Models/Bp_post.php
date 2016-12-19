@@ -11,10 +11,14 @@ class Bp_post extends Model
 
     protected $fillable = [
 
-    	 'title', 'body','post_link','post_type','post_weight','post_active','post_created','created_at'
+    	 'title', 'body','featured','featured_img','post_link','post_type','post_weight','post_active','staff_id','created_at'
 
     ];
 
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'staff_id');
+    }
 
     public function category()
     {
