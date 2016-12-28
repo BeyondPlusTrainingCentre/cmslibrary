@@ -11,9 +11,8 @@ Route::group(['middleware' => 'web','namespace'  =>  'BeyondPlus\CmsLibrary\Cont
 
       Route::group(['prefix' => 'bp-admin','namespace'  =>  'BpAdmin', 'middleware' => 'admin'], function () {
 
-      Route::get('/home', 'HomeController@index');
-      Route::get('/dashboard', 'BackendController@index');
-      Route::get('/', 'AdminController@index');
+      Route::get('/', 'BackendController@index');
+      Route::get('/dashboard', 'BackendController@index');      
       Route::get('logout','Main@logout');
 
       Route::get('/post/search', 'PageController@search');
@@ -51,8 +50,6 @@ Route::group(['middleware' => 'web','namespace'  =>  'BeyondPlus\CmsLibrary\Cont
       Route::resource('account', 'AccountController');
       Route::get('account/delete/{id}', 'AccountController@destroy');
       Route::resource('custom', 'CustomController');
-
-      
 
       });
 

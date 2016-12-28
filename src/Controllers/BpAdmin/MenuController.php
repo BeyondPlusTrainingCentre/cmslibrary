@@ -80,7 +80,7 @@ class MenuController extends Controller
         // ]);
         $inputs = $request->all();
         $inputs['menu_link'] = $request->input('menu_link');
-        $inputs['staff_id'] = Auth::guard('auth')->user()->id;
+        $inputs['staff_id'] = Auth::user()->id;
         Bp_menu::create($inputs);
         return response()->json(['success' => 1]);
     }
