@@ -79,7 +79,7 @@ class MenuController extends Controller
         // 'description' => 'required'
         // ]);
         $inputs = $request->all();
-        $inputs['menu_link'] = $request->input('menu_link');
+        $inputs['parent_id'] = 1;
         $inputs['staff_id'] = Auth::user()->id;
         Bp_menu::create($inputs);
         return response()->json(['success' => 1]);
@@ -88,7 +88,6 @@ class MenuController extends Controller
     public function update($id, Request $request)
     {
         $inputs = $request->all();
-        $inputs['menu_link'] = $request->input('menu_link');
 
         Bp_menu::findOrFail($id)->update($inputs);
         return response()->json(['success' => 1]);
