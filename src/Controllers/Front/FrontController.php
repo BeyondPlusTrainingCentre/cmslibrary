@@ -44,47 +44,45 @@ class FrontController extends Controller
     }
 
     public function index(){
-        return view($this->t().'index', ['title' => 'Welcome', 'page' => 'home' ,  'categories' => $this->categories,'menus' => $this->menus ,'post_link'=>$this->post_link  ,'sliders' => $this->sliders ]);
+        return view($this->t().'index', ['title' => 'home' ,  'categories' => $this->categories,'menus' => $this->menus ,'post_link'=>$this->post_link  ,'sliders' => $this->sliders ]);
     }
 
     public function menu($name) {
-        $query = Bp_menu::where('menu_link', '=', $name)->first();
-        if($query){
+        $query = Bp_menu::where('menu_link',$name)->first();
+        if(count($query) > 0){
           if($query->layouts == ""){
-            $bp_post = Bp_post::where('id','=',$query->post_id)->get();
-            $bp_cat=Bp_category::select('*')->get();
+            $bp_post = Bp_post::where('id',$query->post_id)->get();
               if($bp_post === null){
                   abort(404);
               } else {
 
-              return view($this->t().'single', ['title' => 'Welcome', 'description' => '', 'page' => 'home', 'posts' => $bp_post, 'bp_cat' => $bp_cat, 'menus' => $this->menus,'post_link'=>$this->post_link ]);
+              return view($this->t().'single', ['title' => 'home', 'posts' => $bp_post,'menus' => $this->menus,'post_link'=>$this->post_link ]);
               }
           } else {
-              return view($this->t().'layouts/'.$query->layouts, ['title' => 'Welcome', 'description' => '', 'page' => 'home', 'menus' => $this->menus,'post_link'=>$this->post_link ]);
+              return view($this->t().'layouts/'.$query->layouts, ['title' => 'home', 'menus' => $this->menus,'post_link'=>$this->post_link ]);
           }
         } else {
-            abort('404');
+           return  $this->detail($name);
         }
     }
 
-    public function post($name) {
-        $bp_post = Bp_post::where('post_link', '=', $name)->get();
+    public function detail($name) {
+        $bp_post = Bp_post::where('post_link', $name)->get();
         if($bp_post === null){
             abort(404);
         } else {
-        $bp_cat=Bp_category::select('*')->get();
-        return view($this->t().'single', ['title' => 'Welcome', 'description' => '', 'page' => 'home', 'posts' => $bp_post, 'bp_cat' => $bp_cat, 'menus' => $this->menus,'post_link'=>$this->post_link ]);
+          return view($this->t().'single', ['title' => 'home', 'posts' => $bp_post,'menus' => $this->menus,'post_link'=>$this->post_link ]);
         }
     }
 
     public function cat($name){
-        $bp_cat=Bp_category::select('*')->get();
-        $cat_id=Bp_category::select('category_id')->where('category_link','=', $name)->get()->first();
+        $bp_cat=Bp_category::get();
+        $cat_id=Bp_category::select('category_id')->where('category_link',$name)->get()->first();
         if($cat_id === null){
             abort(404);
         } else {
             $term=Bp_relationship::select('post_id')->where('term_id','=', $cat_id->category_id)->get();
-            return view($this->t().'post', ['title' => 'Welcome', 'description' => '', 'page' => 'home','bp_cat' => $bp_cat, 'menus' => $this->menus,'post_link'=>$this->post_link , 'term' => $term]);
+            return view($this->t().'post', ['title' => 'home','bp_cat' => $bp_cat, 'menus' => $this->menus,'post_link'=>$this->post_link , 'term' => $term]);
         }
 
     }
