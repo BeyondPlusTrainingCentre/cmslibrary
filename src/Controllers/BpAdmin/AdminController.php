@@ -23,11 +23,10 @@ class AdminController extends Controller
 
     public function index()
     {
-    	$post = Bp_post::where('post_type','=', 'post')->orderBy('created_at','ASC')->paginate(13);
+    	$post = Bp_post::where('post_type','post')->paginate(13);
     	$allUser=Admin::get()->count();
 
         $latestUser= User::get();
-        // print_r($latestUser);
         return view('/bp-admin/home', array('post' => $post , 'allUser' => $allUser, 'latestUser' => $latestUser ));
     }
 
