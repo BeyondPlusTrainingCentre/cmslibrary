@@ -57,11 +57,11 @@ class MenuController extends Controller
     }
 
     public function postStore(Request $request){
-        $posts  = $request->get('posts');
+        $posts  = $request->get('pages');
 
         foreach( $posts as $i => $value) {
             $post['post_id'] = $posts[$i];
-            $getposts = Bp_post::where('id' , '=', $posts[$i])->first();
+            $getposts = Bp_post::where('id' ,$posts[$i])->first();
             $post_name = $getposts->title;
             $post['menu_name'] = $post_name;
             $post['menu_link'] = $post_name;
