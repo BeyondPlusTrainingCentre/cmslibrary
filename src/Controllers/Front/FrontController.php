@@ -41,6 +41,22 @@ class FrontController extends Controller
         return $t = "theme.".$this->themes->option_value.".";
     }
 
+    public function template($query, $templateName) {
+        if($query === null){
+            abort(404);
+        } else {
+            $view = ($query->post_template != "default") ? $query->post_template : $templateName; 
+                if(view()->exists($this->t().$view)) {
+                    $view = $this->t().$view;
+                } else {
+                    $view = $this->t().$templateName;
+                }
+            return $view;
+        }
+
+        
+    }
+
     public function index(){
         return view($this->t().'index', ['title' => 'home' ,  'categories' => $this->categories,'post_link'=>$this->post_link  ,'sliders' => $this->sliders ]);
     }
@@ -48,25 +64,21 @@ class FrontController extends Controller
     public function menu($name) {
         $query = Bp_menu::where('menu_link',$name)->first();
         if(count($query) > 0){
-            $bp_post = Bp_post::where('id',$query->post_id)->get();
-              if($bp_post === null){
-                  abort(404);
-              } else {
+            $bp_post = Bp_post::where('id',$query->post_id)->first();
+              
+            $view = $this->template($bp_post, 'single');
+            return view($view, ['title' => 'home', 'post' => $bp_post,'post_link'=>$this->post_link ]);
 
-              return view($this->t().'single', ['title' => 'home', 'posts' => $bp_post,'post_link'=>$this->post_link ]);
-              }
         } else {
            return  $this->detail($name);
         }
     }
 
     public function detail($name) {
-        $bp_post = Bp_post::where('post_link', $name)->get();
-        if($bp_post === null){
-            abort(404);
-        } else {
-          return view($this->t().'single', ['title' => 'home', 'posts' => $bp_post,'post_link'=>$this->post_link ]);
-        }
+        $bp_post = Bp_post::where('post_link', $name)->first();
+        
+        $view = $this->template($bp_post, 'single');
+        return view($view, ['title' => 'home', 'post' => $bp_post,'post_link'=>$this->post_link ]);
     }
 
     public function cat($name){
@@ -75,8 +87,8 @@ class FrontController extends Controller
         if($cat_id === null){
             abort(404);
         } else {
-            $term=Bp_relationship::select('post_id')->where('term_id','=', $cat_id->category_id)->get();
-            return view($this->t().'post', ['title' => 'home','bp_cat' => $bp_cat,'post_link'=>$this->post_link , 'term' => $term]);
+            $term=Bp_relationship::select('post_id')->where('term_id', $cat_id->category_id)->get();
+            return view($this->t().'term', ['title' => 'home','bp_cat' => $bp_cat,'post_link'=>$this->post_link , 'term' => $term]);
         }
 
     }
