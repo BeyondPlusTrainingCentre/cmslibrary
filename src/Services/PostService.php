@@ -14,20 +14,20 @@ use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
 class PostService
 {
   public function post($per_page){
-    $query['data']= Bp_post::where('post_type','=', 'post')->orderBy('updated_at','desc')->paginate($per_page);
+    $query['data']= Bp_post::where('post_type','post')->orderBy('updated_at','desc')->paginate($per_page);
     $query['category'] = Bp_category::orderBy('category_name')->get();
     return $query;
   }
 
   public function page($per_page){
-    $query['data']= Bp_post::where('post_type','=', 'page')->orderBy('updated_at','desc')->paginate($per_page);
+    $query['data']= Bp_post::where('post_type','page')->orderBy('updated_at','desc')->paginate($per_page);
     $query['category'] = Bp_category::orderBy('category_name')->get();
     return $query;
   }
 
   public function detail($id){
-    $query['data']= Bp_post::where('post_type', '=' , 'post')->where('id' , '=' ,  $id)->orderBy('updated_at','desc')->get();
-    $query['post_category']= Bp_relationship::where('post_id', '=' , $id)->orderBy('updated_at','desc')->get();
+    $query['data']= Bp_post::where('post_type','post')->where('id' ,$id)->orderBy('updated_at','desc')->get();
+    $query['post_category']= Bp_relationship::where('post_id',$id)->orderBy('updated_at','desc')->get();
     $query['category'] = Bp_category::orderBy('category_name')->get();
     return $query;
   }

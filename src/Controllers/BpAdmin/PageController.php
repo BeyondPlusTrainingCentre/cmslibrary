@@ -18,6 +18,7 @@ use BeyondPlus\CmsLibrary\Models\User;
 use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
 use BeyondPlus\CmsLibrary\Services\PostService;
 use BeyondPlus\CmsLibrary\Transformers\PostTransformer;
+use Auth;
 
 class PageController extends Controller
 {
@@ -61,6 +62,7 @@ class PageController extends Controller
 
         $inputs = $request->all();
         $inputs['post_type'] = 'page';
+        $inputs['staff_id'] = Auth::user()->id;
         if ($request->file('category_icon') && $request->file('category_icon')->isValid()) {
             $destinationPath = uploadPath();
             $extension = $request->file('category_icon')->getClientOriginalExtension(); // getting image extension
