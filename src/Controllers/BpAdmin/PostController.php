@@ -107,6 +107,7 @@ class PostController extends Controller
     {
         $inputs = $request->all();
         $inputs['post_link'] = str_replace(' ', '-', strtolower($request->input('title')));
+
         Bp_post::findOrFail($id)->update($inputs);
 
         $categories  = $request->get('categories');
