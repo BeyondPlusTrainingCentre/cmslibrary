@@ -16,7 +16,6 @@ use BeyondPlus\CmsLibrary\Models\Bp_category;
 use BeyondPlus\CmsLibrary\Models\Bp_menu;
 use BeyondPlus\CmsLibrary\Models\Bp_relationship;
 use BeyondPlus\CmsLibrary\Models\Bp_options;
-use BeyondPlus\CmsLibrary\Models\Bp_slider;
 use BeyondPlus\CmsLibrary\Models\User;
 use BeyondPlus\CmsLibrary\Models\Comments;
 use App\Http\Requests\PriorityRequest;
@@ -33,12 +32,11 @@ class FrontController extends Controller
     public function __construct(){
         $this->themes = Bp_options::where('option_name','theme')->first();
         $this->categories = Bp_category::all($arrayName = array('category_name'));
-        $this->sliders= Bp_slider::get();
         $this->post_link = Bp_post::select('post_link','id')->get();
     }
 
     public function t(){
-        return $t = "theme.".$this->themes->option_value.".";
+        return $t = "theme::".$this->themes->option_value.".";
     }
 
     public function template($query, $templateName) {
@@ -58,7 +56,7 @@ class FrontController extends Controller
     }
 
     public function index(){
-        return view($this->t().'index', ['title' => 'home' ,  'categories' => $this->categories,'post_link'=>$this->post_link  ,'sliders' => $this->sliders ]);
+        return view($this->t().'index', ['title' => 'home' ,  'categories' => $this->categories,'post_link'=>$this->post_link ]);
     }
 
     public function menu($name) {

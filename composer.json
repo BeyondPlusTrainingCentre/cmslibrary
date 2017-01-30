@@ -8,7 +8,11 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "laravel/framework": "5.4.*",
+        "laravel/tinker": "~1.0",
+        "nwidart/laravel-modules": "^1.16"
+    },
     "autoload": {
         "psr-4": {
           "BeyondPlus\\CmsLibrary\\": "src/"
