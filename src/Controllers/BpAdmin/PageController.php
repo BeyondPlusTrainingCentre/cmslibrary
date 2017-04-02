@@ -15,7 +15,7 @@ use App\Http\Controllers\Controller;
 use BeyondPlus\CmsLibrary\Models\Bp_category;
 use BeyondPlus\CmsLibrary\Models\Bp_post;
 use BeyondPlus\CmsLibrary\Models\User;
-use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
+use BeyondPlus\CmsLibrary\Utils\Limit;
 use BeyondPlus\CmsLibrary\Services\PostService;
 use BeyondPlus\CmsLibrary\Transformers\PostTransformer;
 use Auth;
@@ -76,7 +76,7 @@ class PageController extends Controller
 
 
         Bp_post::create($inputs);
-        return json_encode(['success' => '1']);
+        return response()->json(['success' => 1]);
     }
 
     public function edit($id)
@@ -105,13 +105,13 @@ class PageController extends Controller
         }
 
         Bp_post::findOrFail($id)->update($inputs);
-        return json_encode(['success' => '1']);
+        return response()->json(['success' => 1]);
     }
 
     public function destroy($id)
     {
         Bp_post::find($id)->delete();
-        return redirect()->back();
+        return response()->json(['success' => 1]);
     }
 
 }

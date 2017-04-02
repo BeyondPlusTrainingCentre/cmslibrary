@@ -12,7 +12,7 @@ use App\Http\Requests;
 use Illuminate\Routing\Controller;
 use BeyondPlus\CmsLibrary\Models\Bp_options;
 use BeyondPlus\CmsLibrary\Services\SettingsService;
-use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
+use BeyondPlus\CmsLibrary\Utils\Limit;
 
 class SettingsController extends Controller
 {

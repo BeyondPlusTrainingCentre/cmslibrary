@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use BeyondPlus\CmsLibrary\Models\Bp_custom;
-use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
+use BeyondPlus\CmsLibrary\Utils\Limit;
 use BeyondPlus\CmsLibrary\Services\CustomService;
 
 class CustomController extends Controller

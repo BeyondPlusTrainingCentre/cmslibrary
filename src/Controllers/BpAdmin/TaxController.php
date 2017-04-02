@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Routing\Controller;
 use BeyondPlus\CmsLibrary\Models\Bp_tax;
-use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
+use BeyondPlus\CmsLibrary\Utils\Limit;
 use BeyondPlus\CmsLibrary\Services\TaxService;
 use BeyondPlus\CmsLibrary\Transformers\TaxTransformer;
 

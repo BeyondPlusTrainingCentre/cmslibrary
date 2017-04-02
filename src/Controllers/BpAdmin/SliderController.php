@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use BeyondPlus\CmsLibrary\Models\Bp_slider;
-use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
+use BeyondPlus\CmsLibrary\Utils\Limit;
 use BeyondPlus\CmsLibrary\Services\SliderService;
 use Auth;
 
@@ -60,6 +60,9 @@ class sliderController extends Controller
         'slider_link' => 'required'
         ]);
         $inputs = $request->all();
+        if($inputs['slider_description']) {
+            $inputs['slider_description'] = '';
+        }
         $inputs['staff_id'] = Auth::user()->id;
         Bp_slider::create($inputs);
     }
@@ -72,6 +75,10 @@ class sliderController extends Controller
         'slider_link' => 'required'
         ]);
         $inputs = $request->all();
+        if($inputs['slider_description']) {
+            $inputs['slider_description'] = '';
+        }
+        
         Bp_slider::findOrFail($id)->update($inputs);
     }
 

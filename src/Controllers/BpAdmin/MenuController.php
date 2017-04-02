@@ -15,7 +15,7 @@ use App\Http\Controllers\Controller;
 use BeyondPlus\CmsLibrary\Models\Bp_post;
 use BeyondPlus\CmsLibrary\Models\Bp_menu;
 use BeyondPlus\CmsLibrary\Models\User;
-use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
+use BeyondPlus\CmsLibrary\Utils\Limit;
 use BeyondPlus\CmsLibrary\Services\MenuService;
 use BeyondPlus\CmsLibrary\Transformers\MenuTransformer;
 use Auth;
@@ -88,7 +88,9 @@ class MenuController extends Controller
     public function update($id, Request $request)
     {
         $inputs = $request->all();
-
+        if($inputs['menu_icon'] == '') {
+            $inputs['menu_icon'] = 'fa fa-list';
+        }
         Bp_menu::findOrFail($id)->update($inputs);
         return response()->json(['success' => 1]);
     }

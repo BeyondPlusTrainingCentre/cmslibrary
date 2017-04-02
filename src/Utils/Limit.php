@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyondPlus\CmsLibrary\Controllers\Utils;
+namespace BeyondPlus\CmsLibrary\Utils;
 
 interface Limit
 {

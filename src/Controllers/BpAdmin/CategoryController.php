@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Routing\Controller;
 use BeyondPlus\CmsLibrary\Models\Bp_category;
-use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
+use BeyondPlus\CmsLibrary\Utils\Limit;
 use BeyondPlus\CmsLibrary\Services\CategoryService;
 use BeyondPlus\CmsLibrary\Transformers\CategoryTransformer;
 

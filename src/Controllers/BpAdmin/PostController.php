@@ -17,7 +17,7 @@ use BeyondPlus\CmsLibrary\Models\Bp_term;
 use BeyondPlus\CmsLibrary\Models\Bp_post;
 use BeyondPlus\CmsLibrary\Models\Bp_relationship;
 use BeyondPlus\CmsLibrary\Models\User;
-use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
+use BeyondPlus\CmsLibrary\Utils\Limit;
 use BeyondPlus\CmsLibrary\Services\PostService;
 use BeyondPlus\CmsLibrary\Transformers\PostTransformer;
 use Auth;
