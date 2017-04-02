@@ -4,13 +4,13 @@ namespace BeyondPlus\CmsLibrary\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comments extends Model
+class Bp_messages extends Model
 {
-    protected $primaryKey = 'que_id';
-    protected $table = 'comments';
+    protected $primaryKey = 'message_id';
+    protected $table = 'bp_messages';
 
     protected $fillable = [
-    	 'comment_id', 'customer_id','comment_value','comment_active', 'staff_id','created_at','updated_at'
+    	 'message_id', 'post_id','message_value','message_active', 'message_type','user_id','created_at','updated_at'
     ];
 
   	public function users()
