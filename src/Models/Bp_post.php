@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Bp_post extends Model
 {
     protected $primaryKey = 'id';
-    protected $table = 'bp_post';
+    protected $table = 'bp_posts';
 
     protected $fillable = [
 
