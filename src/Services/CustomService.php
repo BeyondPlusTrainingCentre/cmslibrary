@@ -10,7 +10,7 @@ use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
 class CustomService
 {
   public function customs($per_page){
-    $query['data'] = Bp_custom::latest()->paginate($per_page);
+    $query['data'] = Bp_custom::latest()->paginate($per_page)->all();
     return $query;
   }
    

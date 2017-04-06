@@ -12,8 +12,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use BeyondPlus\CmsLibrary\Models\Bp_category;
-use BeyondPlus\CmsLibrary\Models\Bp_term;
+use BeyondPlus\CmsLibrary\Models\Bp_tax;
+use BeyondPlus\CmsLibrary\Models\Bp_lanugages;
 use BeyondPlus\CmsLibrary\Models\Bp_post;
 use BeyondPlus\CmsLibrary\Models\Bp_relationship;
 use BeyondPlus\CmsLibrary\Models\User;
@@ -31,7 +31,7 @@ class PostController extends Controller
         $this->middleware('auth');
         $this->service = $service;
         $this->transformer = new PostTransformer;
-        $this->categories=  Bp_category::all();
+        $this->categories=  Bp_tax::where('tax_type','category')->get();
     }
 
     public function index(Request $request){
@@ -41,7 +41,7 @@ class PostController extends Controller
     }
 
     public function create(){
-        $categories= Bp_category::all();
+        $categories= Bp_tax::where('tax_type','category')->all();
        return view('bp-admin.post.add', array('categories' => $this->categories));
 
     }

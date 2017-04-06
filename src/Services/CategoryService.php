@@ -4,21 +4,20 @@ namespace BeyondPlus\CmsLibrary\Services;
 
 use Validator;
 use Illuminate\Validation\ValidationException;
-use BeyondPlus\CmsLibrary\Models\Bp_category;
+use BeyondPlus\CmsLibrary\Models\Bp_tax;
 use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
 
 class CategoryService
 {
   public function category($per_page){
-    $query['data'] = Bp_category::orderBy('category_name')->paginate($per_page);
-    $query['all']= Bp_category::select('category_name','category_id')->get();
+    $query['data'] = Bp_tax::orderBy('tax_name')->where('tax_type','category')->simplePaginate($per_page);
+    $query['all']= Bp_tax::select('tax_name','tax_id')->where('tax_type','category')->get();
     return $query;
   }
 
   public function search($where , $paginate = Limit::NORMAL){
-    $array = Bp_category::get();
-    $array = $array->toArray();
-    $query = Bp_category::orderBy('category_name', 'desc');
+    $array = Bp_tax::where('tax_type','category')->get()->toArray();
+    $query = Bp_tax::where('tax_type','category')->orderBy('tax_name', 'desc');
     foreach ($where as $key => $value) {
       $key = ltrim($key, Limit::QUERY);
       if(array_key_exists($key, $array[0])){

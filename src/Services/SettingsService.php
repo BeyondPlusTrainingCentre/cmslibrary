@@ -10,7 +10,7 @@ use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
 class SettingsService
 {
   public function settings($per_page){
-    $query = Bp_options::orderBy('option_id')->paginate($per_page);
+    $query = Bp_options::orderBy('option_id')->simplePaginate($per_page);
     return $query;
   }
    

@@ -10,7 +10,7 @@ use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
 class UserService
 {
   public function users($per_page){
-    $query['data'] = User::latest()->paginate($per_page);
+    $query['data'] = User::latest()->simplePaginate($per_page);
     return $query;
   }
    

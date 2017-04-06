@@ -4,7 +4,7 @@ namespace BeyondPlus\CmsLibrary\Services;
 
 use Validator;
 use Illuminate\Validation\ValidationException;
-use BeyondPlus\CmsLibrary\Models\Bp_category;
+use BeyondPlus\CmsLibrary\Models\Bp_tax;
 use BeyondPlus\CmsLibrary\Models\Bp_term;
 use BeyondPlus\CmsLibrary\Models\Bp_post;
 use BeyondPlus\CmsLibrary\Models\Bp_relationship;
@@ -14,21 +14,21 @@ use BeyondPlus\CmsLibrary\Controllers\Utils\Limit;
 class PostService
 {
   public function post($per_page){
-    $query['data']= Bp_post::where('post_type','post')->orderBy('updated_at','desc')->paginate($per_page);
-    $query['category'] = Bp_category::orderBy('category_name')->get();
+    $query['data'] = Bp_post::where('post_type','post')->orderBy('updated_at','desc')->simplePaginate($per_page);
+    $query['category'] = Bp_tax::orderBy('tax_name')->where('tax_type','category')->get();
     return $query;
   }
 
   public function page($per_page){
-    $query['data']= Bp_post::where('post_type','page')->orderBy('updated_at','desc')->paginate($per_page);
-    $query['category'] = Bp_category::orderBy('category_name')->get();
+    $query['data']= Bp_post::where('post_type','page')->orderBy('updated_at','desc')->simplePaginate($per_page);
+    $query['category'] = Bp_tax::orderBy('tax_name')->where('tax_type','category')->get();
     return $query;
   }
 
   public function detail($id){
     $query['data']= Bp_post::where('post_type','post')->where('id' ,$id)->orderBy('updated_at','desc')->get();
     $query['post_category']= Bp_relationship::where('post_id',$id)->orderBy('updated_at','desc')->get();
-    $query['category'] = Bp_category::orderBy('category_name')->get();
+    $query['category'] = Bp_tax::orderBy('tax_name')->where('tax_type','category')->get();
     return $query;
   }
 
