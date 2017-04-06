@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use BeyondPlus\CmsLibrary\Models\Bp_post;
-use BeyondPlus\CmsLibrary\Models\Bp_category;
+use BeyondPlus\CmsLibrary\Models\Bp_tax;
 use BeyondPlus\CmsLibrary\Models\Bp_menu;
 use BeyondPlus\CmsLibrary\Models\Bp_relationship;
 use BeyondPlus\CmsLibrary\Models\Bp_options;
@@ -31,7 +31,7 @@ class FrontController extends Controller
 
     public function __construct(){
         $this->themes = Bp_options::where('option_name','theme')->first();
-        $this->categories = Bp_category::all($arrayName = array('category_name'));
+        $this->categories = Bp_tax::where('tax_type','category')->get()->all($arrayName = array('tax_name'));
         $this->post_link = Bp_post::select('post_link','id')->get();
     }
 
@@ -80,8 +80,8 @@ class FrontController extends Controller
     }
 
     public function cat($name){
-        $bp_cat=Bp_category::get();
-        $cat_id=Bp_category::select('category_id')->where('category_link',$name)->get()->first();
+        $bp_cat=Bp_tax::where('tax_type','category')->get();
+        $cat_id=Bp_tax::select('tax_id')->where('tax_type','category')->where('category_link',$name)->get()->first();
         if($cat_id === null){
             abort(404);
         } else {
