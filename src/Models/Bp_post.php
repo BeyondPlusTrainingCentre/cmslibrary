@@ -27,7 +27,7 @@ class Bp_post extends Model
 
     public function categories()
     {
-        return $this->belongsToMany('BeyondPlus\CmsLibrary\Models\Bp_category', 'bp_relationship' ,'post_id', 'post_id');
+        return $this->belongsToMany('BeyondPlus\CmsLibrary\Models\Bp_term', 'bp_relationships' ,'post_id', 'term_id');
     }
 
 
